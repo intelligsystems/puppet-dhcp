@@ -44,7 +44,7 @@ This module has been prepared on Debian 8.8 (Jessie) and Puppet 4.10 environment
   dhcpd_conf.erb
 ```
 * It requires puppetlabs-stdlib,version_requirement: >= 1.0.0.
-* Attention!!! This module broadcast IP addresses.
+* Attention!!! This module broadcasts IP addresses.
   It can provide a lot of changes in your network.
   Please make sure that you know what DHCP server do.  
 
@@ -55,7 +55,7 @@ This module has been prepared on Debian 8.8 (Jessie) and Puppet 4.10 environment
 
 ### Beginning with dhcp
 
-The very basic steps needed for a user to get the module up and running. This
+The very basic steps needed for a user to get the module up and running.
 
 ``` puppet
 include ::dhcp
@@ -81,10 +81,19 @@ class { 'dhcp':
 
 ## Reference
 
-Here, include a complete list of your module's classes, types, providers,
-facts, along with the parameters for each. Users refer to this section (thus
-the name "Reference") to find specific details; most users don't read it per
-se.
+* Classes:
+  dhcp:init
+  dhcp::params
+  dhcp::install
+  dhcp::config
+  dhcp::service
+
+* Facts:
+  ::osfamily
+  ::ipaddress
+  ::ipaddress6
+  ::domain
+
 
 ## Limitations
 
@@ -93,6 +102,7 @@ It will be testing soon on another systems.
 
 ## Development
 
+Soon...
 
 ## Release Notes.
 

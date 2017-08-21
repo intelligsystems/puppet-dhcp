@@ -1,12 +1,12 @@
 {
   "name": "intelligsystems-dhcp",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "intelligsystems",
   "summary": "DHCP linux server.",
   "license": "Apache-2.0",
   "source": "https://github.com/intelligsystems/puppet-dhcp",
   "project_page": "https://github.com/intelligsystems/puppet-dhcp",
-  "issues_url": null,
+  "issues_url": "https://github.com/intelligsystems/puppet-dhcp/issues",
   "dependencies": [
     {"name":"puppetlabs-stdlib","version_requirement":">= 1.0.0"}
   ],

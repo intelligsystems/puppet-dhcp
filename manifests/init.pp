@@ -199,41 +199,41 @@
 # Copyright 2017 intelligsystems, Apache-2.0 licence.
 #
 class dhcp (
-	Boolean $package_manage			= true,
-	Optional[String] $package_ensure	= 'present',
-	Optional[String] $package_name 		= $dhcp::params::package_name,
-	Optional[String] $package_provider	= $dhcp::params::package_provider,
-	Boolean $service_manage			= true,
-	Optional[String] $service_ensure	= 'running',
-	Boolean $service_enable			= true,
-	Optional[String] $service_name 		= $dhcp::params::service_name,
-	Optional[String] $service_provider	= $dhcp::params::service_provider,
-	Optional[String] $dhcpd_conf		= $dhcp::params::dhcpd_conf,
-	Optional[String] $domain_name		= $dhcp::params::domain,
-	Array[String] $domain_name_servers	= [ 'ns1.example.org', 'ns2.example.org' ],
-	Integer $default_lease_time		= 600,
-	Integer $max_lease_time			= 7200,
-	Enum['yes', 'none'] $ddns_update_style	= 'none',
-	Enum['authoritative', 'none'] $authoritative = 'authoritative',
-	Optional[String] $log_facility		= $dhcp::params::log_facility,
-	Hash $subnet				= {},
-	Array $failover				= [ 
-		{
-			'peer'				=> '',
-			'address'			=> "$dhcp::params::ip", 
-			'port'				=> 647,
-			'peer address'			=> '',
-			'peer port'			=> 647,
-			'max-response-delay'		=> 60,
-			'max-unacked-updates'		=> 10,
-			'mclt'				=> 3600,
-			'split'				=> 128,
-			'load balance max seconds'	=> 3
-		}
-	],
-	Hash $hosts				= {}
+  Boolean $package_manage      = true,
+  Optional[String] $package_ensure  = 'present',
+  Optional[String] $package_name     = $dhcp::params::package_name,
+  Optional[String] $package_provider  = $dhcp::params::package_provider,
+  Boolean $service_manage      = true,
+  Optional[String] $service_ensure  = 'running',
+  Boolean $service_enable      = true,
+  Optional[String] $service_name     = $dhcp::params::service_name,
+  Optional[String] $service_provider  = $dhcp::params::service_provider,
+  Optional[String] $dhcpd_conf    = $dhcp::params::dhcpd_conf,
+  Optional[String] $domain_name    = $dhcp::params::domain,
+  Array[String] $domain_name_servers  = [ 'ns1.example.org', 'ns2.example.org' ],
+  Integer $default_lease_time    = 600,
+  Integer $max_lease_time      = 7200,
+  Enum['yes', 'none'] $ddns_update_style  = 'none',
+  Enum['authoritative', 'none'] $authoritative = 'authoritative',
+  Optional[String] $log_facility    = $dhcp::params::log_facility,
+  Hash $subnet        = {},
+  Array $failover        = [
+    {
+      'peer'        => '',
+      'address'      => $dhcp::params::ip,
+      'port'        => 647,
+      'peer address'      => '',
+      'peer port'      => 647,
+      'max-response-delay'    => 60,
+      'max-unacked-updates'    => 10,
+      'mclt'        => 3600,
+      'split'        => 128,
+      'load balance max seconds'  => 3
+    }
+  ],
+  Hash $hosts        = {}
 ) inherits dhcp::params {
-	contain dhcp::install
-	contain dhcp::config
-	contain dhcp::service
+  contain dhcp::install
+  contain dhcp::config
+  contain dhcp::service
 }

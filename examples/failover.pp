@@ -50,39 +50,39 @@
 #}
 #
 node 'node1.example.org' {
-	class { 'dhcp':
-		domain_name_servers	=> [ '192.168.50.249', '192.168.50.250' ],
-		failover        => [
-        		{ 
-				'peer'  	=> 'primary',
-				'peer address'	=> '192.168.50.243'
-			}		
-        	],
-		subnet                  => {
-                	'192.168.50.0 netmask 255.255.255.0'      => {
-                                'range'                         => '192.168.50.100 192.168.50.199',
-                                'option routers'                => '192.168.50.1',
-                                'option broadcast-address'      => '192.168.50.255'
+  class { 'dhcp':
+    domain_name_servers => [ '192.168.50.249', '192.168.50.250' ],
+    failover            => [
+            {
+        'peer'         => 'primary',
+        'peer address' => '192.168.50.243'
+      }
+          ],
+    subnet              => {
+                  '192.168.50.0 netmask 255.255.255.0'      => {
+                                'range'                    => '192.168.50.100 192.168.50.199',
+                                'option routers'           => '192.168.50.1',
+                                'option broadcast-address' => '192.168.50.255'
                         }
-        	},
-	}
+          },
+  }
 }
 
 node 'node2.example.org' {
-	class { 'dhcp':
-		domain_name_servers	=> [ '192.168.50.249', '192.168.50.250' ],
-		failover        => [
-        		{ 
-				'peer'  	=> 'secondary',
-				'peer address'	=> '192.168.50.245'
-			}		
-        	],
-		subnet                  => {
-                	'192.168.50.0 netmask 255.255.255.0'      => {
-                                'range'                         => '192.168.50.100 192.168.50.199',
-                                'option routers'                => '192.168.50.1',
-                                'option broadcast-address'      => '192.168.50.255'
+  class { 'dhcp':
+    domain_name_servers => [ '192.168.50.249', '192.168.50.250' ],
+    failover            => [
+            {
+        'peer'         => 'secondary',
+        'peer address' => '192.168.50.245'
+      }
+          ],
+    subnet              => {
+                  '192.168.50.0 netmask 255.255.255.0'      => {
+                                'range'                    => '192.168.50.100 192.168.50.199',
+                                'option routers'           => '192.168.50.1',
+                                'option broadcast-address' => '192.168.50.255'
                         }
-        	},
-	}
+          },
+  }
 }

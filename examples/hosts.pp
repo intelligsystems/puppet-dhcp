@@ -42,17 +42,17 @@
 #        fixed-address 192.168.23.11;
 #}
 #
-class { 'dhcp':
-	domain_name		=> 'example.org',
-	domain_name_servers	=> [ 'ns1.example.org', 'ns2.example.org' ], 
-	hosts                  	=> {
-                'alice' => {
-                       'hardware ethernet'     => '08:00:07:26:c0:a5',
-                       'fixed-address'         => '192.168.23.12'
-                },
-                'john' => {
-                       'hardware ethernet'     => '08:00:07:26:c0:a6',
-                       'fixed-address'         => '192.168.23.11'
-                }
-       },
+class { '::dhcp':
+  domain_name         => 'example.org',
+  domain_name_servers => [ 'ns1.example.org', 'ns2.example.org' ],
+  hosts               => {
+    'alice' => {
+      'hardware ethernet' => '08:00:07:26:c0:a5',
+      'fixed-address'     => '192.168.23.12'
+    },
+    'john'  => {
+      'hardware ethernet' => '08:00:07:26:c0:a6',
+      'fixed-address'     => '192.168.23.11'
+    }
+  }
 }

@@ -32,13 +32,13 @@
 #}
 #
 class { 'dhcp':
-	domain_name		=> 'example.org',
-	domain_name_servers	=> [ 'ns1.example.org', 'ns2.example.org' ], 
-	subnet			=> {
-		'10.10.10.0 netmask 255.255.255.0'	=> {
-			'range'				=> '10.10.10.5 10.10.10.10',
-			'option routers'		=> '10.10.10.1',
-			'option broadcast-address'	=> '10.10.10.255'
-		}
-	},
+  domain_name         => 'example.org',
+  domain_name_servers => [ 'ns1.example.org', 'ns2.example.org' ],
+  subnet              => {
+    '10.10.10.0 netmask 255.255.255.0'  => {
+      'range'                    => '10.10.10.5 10.10.10.10',
+      'option routers'           => '10.10.10.1',
+      'option broadcast-address' => '10.10.10.255'
+    }
+  },
 }

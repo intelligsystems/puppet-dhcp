@@ -81,14 +81,14 @@ class { 'dhcp':
 
 ## Reference
 
-* Classes:
-  dhcp:init
+Classes:
+  dhcp::init
   dhcp::params
   dhcp::install
   dhcp::config
   dhcp::service
 
-* Facts:
+Facts:
   ::osfamily
   ::ipaddress
   ::ipaddress6

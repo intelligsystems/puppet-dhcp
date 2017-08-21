@@ -1,0 +1,42 @@
+{
+  "name": "intelligsystems-dhcp",
+  "version": "0.1.0",
+  "author": "intelligsystems",
+  "summary": "DHCP linux server.",
+  "license": "Apache-2.0",
+  "source": "https://github.com/intelligsystems/puppet-dhcp",
+  "project_page": "https://github.com/intelligsystems/puppet-dhcp",
+  "issues_url": null,
+  "dependencies": [
+    {"name":"puppetlabs-stdlib","version_requirement":">= 1.0.0"}
+  ],
+  "data_provider": null,
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "CentOS",
+      "operatingsystemrelease": [
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "Debian",
+      "operatingsystemrelease": [
+        "8"
+      ]
+    },
+    {
+      "operatingsystem": "Ubuntu",
+      "operatingsystemrelease": [
+        "17.04"
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "name": "puppet",
+      "version_requirement": ">= 4.10.0 < 5.0.0"
+    }
+  ],
+  "description": "DHCP Module for Debian, Ubuntu, CentOS."
+}
+

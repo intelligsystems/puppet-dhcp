@@ -1,0 +1,114 @@
+# dhcpd.conf: Managed by puppet. 
+# Do not change it manually!
+#
+# Template from CentOS 7
+#
+# Option definitions common to all supported networks...
+option domain-name "<%= scope['dhcp::domain_name'] -%>";
+option domain-name-servers <% [scope['dhcp::domain_name_servers'].join(', ')].each do |ns| -%><%= ns %><% end -%>;
+
+default-lease-time <%= scope['dhcp::default_lease_time'] -%>;
+max-lease-time <%= scope['dhcp::max_lease_time'] -%>;
+
+# Use this to enable / disable dynamic dns updates globaly.
+ddns-update-style <%= scope['ddns_update_style'] -%>;
+
+<% if scope['dhcp::authoritative'] == 'authoritative' -%>
+# If this DHCP server is the official DHCP server for the 
+# local network, the authoritative directive should be set.
+authoritative;
+<% end -%>
+
+# Use this to send dhcp log messages to a different log file (you also
+# have to hack syslog.conf to complete the redirection).
+log-facility <%= scope['dhcp::log_facility'] -%>;
+
+<% if @failover[0]['peer'] and @failover[0]['peer address'] -%>
+# Peer section.
+failover peer "dhcp-failover" {
+<%= @failover[0]['peer'] -%>;
+<%# If IP is defined then assign -%>
+<% if @failover[0]['address'] -%>
+address <%= @failover[0]['address'] -%>;
+<% else -%>
+address <%= scope['dhcp::params::ip'] -%>;
+<% end -%>
+<%# If port is defined then assign -%>
+<% if @failover[0]['port'] -%>
+port <%= @failover[0]['port'] -%>;
+<% else -%>
+port 647;
+<% end -%>
+peer address <%= @failover[0]['peer address'] -%>;
+<%# If peer port is defined then assign -%>
+<% if @failover[0]['peer port'] -%>
+peer port <%= @failover[0]['peer port'] -%>;
+<% else -%>
+peer port 647;
+<% end -%>
+<%# If max-response-delay is defined then assign -%>
+<% if @failover[0]['max-response-delay'] -%>
+max-response-delay <%= @failover[0]['max-response-delay'] -%>;
+<% else -%>
+max-response-delay 60;
+<% end -%>
+<%# If max-unacked-updates is defined then assign -%>
+<% if @failover[0]['max-unacked-updates'] -%>
+max-unacked-updates <%= @failover[0]['max-unacked-updates'] -%>;
+<% else -%>
+max-unacked-updates 10;
+<% end -%>
+<%# If mclt is defined and peer is primary node then assign -%>
+<% if @failover[0]['mclt'] and @failover[0]['peer'] == 'primary' -%>
+mclt <%= @failover[0]['mclt'] -%>;
+<% elsif @failover[0]['peer'] == 'primary' -%>
+mclt 3600;
+<% end -%>
+<%# If split is defined and peer is primary node then assign -%>
+<% if @failover[0]['split'] and @failover[0]['peer'] == 'primary' -%>
+split <%= @failover[0]['split'] -%>;
+<% elsif @failover[0]['peer'] == 'primary' -%>
+split 128;
+<% end -%>
+<%# If load balance max seconds is defined then assign -%>
+<% if @failover[0]['load balance max seconds'] -%> 
+load balance max seconds <%= @failover[0]['load balance max seconds'] -%>; 
+<% else -%>
+load balance max seconds 3; 
+<% end -%>
+}
+<% end -%>
+
+<% if @subnet != {} -%>
+# Subnets declaration.
+<% @subnet.each do |key,hash| -%>
+subnet <%= key -%> {
+pool {
+<% if @failover[0]['peer'] and @failover[0]['peer address'] -%>
+	failover peer "dhcp-failover";
+<% end -%>
+<% hash.each do |key,value| -%>
+	<%= key %> <%= value %>;
+<% end %>
+}
+}
+<% end -%>
+<% end -%>
+
+<% if @hosts != {} -%>
+# Fixed IP addresses can also be specified for hosts.   These addresses
+# should not also be listed as being available for dynamic assignment.
+# Hosts for which fixed IP addresses have been specified can boot using
+# BOOTP or DHCP.   Hosts for which no fixed address is specified can only
+# be booted with DHCP, unless there is an address range on the subnet
+# to which a BOOTP client is connected which has the dynamic-bootp flag
+# set.
+<% @hosts.each do |key,hash| -%>
+host <%= key -%> {
+<% hash.each do |key,value| -%>
+	<%= key %> <%= value %>;
+<% end %>
+}
+<% end -%>
+<% end -%>
+

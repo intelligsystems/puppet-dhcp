@@ -131,61 +131,61 @@
 # --------
 #
 # @example install DHCP server and define domain name and damian server names
-#    class { 'dhcp':
-#    	domain_name		=>	'example.com',
-#	domain_server_names	=>	[ 'ns1.example.com', 'ns2.example.com' ],
-#    }
+# class { 'dhcp':
+#   domain_name		=> 'example.com',
+#   domain_server_names	=> [ 'ns1.example.com', 'ns2.example.com' ],
+# }
 #
 # @example remove DHCP server
-#    class { 'dhcp':
-#	package_ensure	=> absent,
-#    }
+# class { 'dhcp':
+#   package_ensure => absent,
+# }
 #
 # @example add hosts with fixed IP address
-#    class { 'dhcp':
-#    	hosts                  => {
-#       	'alice'	=> {
-#               	'hardware ethernet'     => '08:00:07:26:c0:a5',
-#                	'fixed-address'         => '192.168.23.12'
-#                },
-#                'john'	=> {
-#                	'hardware ethernet'     => '08:00:07:26:c0:a6',
-#                	'fixed-address'         => '192.168.23.11'
-#                }
-#       },
-#    }
+# class { 'dhcp':
+#   hosts => {
+#     'alice'  => {
+#       'hardware ethernet' => '08:00:07:26:c0:a5',
+#       'fixed-address'     => '192.168.23.12'
+#     },
+#     'john' => {
+#       'hardware ethernet' => '08:00:07:26:c0:a6',
+#       'fixed-address'     => '192.168.23.11'
+#     }
+#   },
+# }
 #
 # @example add simple subnet
-#    class { 'dhcp':
-#	subnet                  => {
-#                        '10.10.10.0 netmask 255.255.255.0'      => {
-#                                'range'                         => '10.10.10.5 10.10.10.10',
-#                                'option routers'                => '10.10.10.1',
-#                                'option broadcast-address'      => '10.10.10.255'
-#                        }
-#       },
-#    }
+# class { 'dhcp':
+#   subnet => {
+#     '10.10.10.0 netmask 255.255.255.0' => {
+#       'range'                    => '10.10.10.5 10.10.10.10',
+#       'option routers'           => '10.10.10.1',
+#       'option broadcast-address' => '10.10.10.255'
+#     }
+#   },
+# }
 #
 # @example add peer failover
 # node 'node1' {
-#    class { 'dhcp':
-#	failover	=> [
-#		{
-#			'peer'		=> 'primary',
-#                       'peer address'  => '10.10.10.11'
-#		}
-#	],
-#    }
+#   class { 'dhcp':
+#     failover => [
+#       {
+#	  'peer'	 => 'primary',
+#         'peer address' => '10.10.10.11'
+#       }
+#     ],
+#   }
 # }
 # node 'nede2' {
-#    class { 'dhcp':
-#	failover	=> [
-#		{
-#			'peer'		=> 'secondary',
-#                       'peer address'  => '10.10.10.12'
-#		}
-#	],
-#    }
+#   class { 'dhcp':
+#     failover => [
+#       {
+#         'peer'         => 'secondary',
+#         'peer address' => '10.10.10.12'
+#       }
+#     ],
+#   }
 # }
 #
 # Authors
@@ -199,39 +199,39 @@
 # Copyright 2017 intelligsystems, Apache-2.0 licence.
 #
 class dhcp (
-  Boolean $package_manage      = true,
-  Optional[String] $package_ensure  = 'present',
-  Optional[String] $package_name     = $dhcp::params::package_name,
-  Optional[String] $package_provider  = $dhcp::params::package_provider,
-  Boolean $service_manage      = true,
-  Optional[String] $service_ensure  = 'running',
-  Boolean $service_enable      = true,
-  Optional[String] $service_name     = $dhcp::params::service_name,
-  Optional[String] $service_provider  = $dhcp::params::service_provider,
-  Optional[String] $dhcpd_conf    = $dhcp::params::dhcpd_conf,
-  Optional[String] $domain_name    = $dhcp::params::domain,
-  Array[String] $domain_name_servers  = [ 'ns1.example.org', 'ns2.example.org' ],
-  Integer $default_lease_time    = 600,
-  Integer $max_lease_time      = 7200,
-  Enum['yes', 'none'] $ddns_update_style  = 'none',
+  Boolean $package_manage                      = true,
+  Optional[String] $package_ensure             = 'present',
+  Optional[String] $package_name               = $dhcp::params::package_name,
+  Optional[String] $package_provider           = $dhcp::params::package_provider,
+  Boolean $service_manage                      = true,
+  Optional[String] $service_ensure             = 'running',
+  Boolean $service_enable                      = true,
+  Optional[String] $service_name               = $dhcp::params::service_name,
+  Optional[String] $service_provider           = $dhcp::params::service_provider,
+  Optional[String] $dhcpd_conf                 = $dhcp::params::dhcpd_conf,
+  Optional[String] $domain_name                = $dhcp::params::domain,
+  Array[String] $domain_name_servers           = [ 'ns1.example.org', 'ns2.example.org' ],
+  Integer $default_lease_time                  = 600,
+  Integer $max_lease_time                      = 7200,
+  Enum['yes', 'none'] $ddns_update_style       = 'none',
   Enum['authoritative', 'none'] $authoritative = 'authoritative',
-  Optional[String] $log_facility    = $dhcp::params::log_facility,
-  Hash $subnet        = {},
-  Array $failover        = [
+  Optional[String] $log_facility               = $dhcp::params::log_facility,
+  Hash $subnet                                 = {},
+  Array $failover                              = [
     {
-      'peer'        => '',
-      'address'      => $dhcp::params::ip,
-      'port'        => 647,
-      'peer address'      => '',
-      'peer port'      => 647,
-      'max-response-delay'    => 60,
-      'max-unacked-updates'    => 10,
-      'mclt'        => 3600,
-      'split'        => 128,
-      'load balance max seconds'  => 3
+      'peer'                     => '',
+      'address'                  => $dhcp::params::ip,
+      'port'                     => 647,
+      'peer address'             => '',
+      'peer port'                => 647,
+      'max-response-delay'       => 60,
+      'max-unacked-updates'      => 10,
+      'mclt'                     => 3600,
+      'split'                    => 128,
+      'load balance max seconds' => 3
     }
   ],
-  Hash $hosts        = {}
+  Hash $hosts                                  = {}
 ) inherits dhcp::params {
   contain dhcp::install
   contain dhcp::config

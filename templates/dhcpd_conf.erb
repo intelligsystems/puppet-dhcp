@@ -23,7 +23,7 @@ authoritative;
 # have to hack syslog.conf to complete the redirection).
 log-facility <%= scope['dhcp::log_facility'] -%>;
 
-<% if @failover[0]['peer'] and @failover[0]['peer address'] -%>
+<% if (@failover[0]['peer'] == 'primary' or @failover[0]['peer'] == 'secondary') and @failover[0]['peer address'] -%>
 # Peer section.
 failover peer "dhcp-failover" {
 <%= @failover[0]['peer'] -%>;
@@ -84,7 +84,7 @@ load balance max seconds 3;
 <% @subnet.each do |key,hash| -%>
 subnet <%= key -%> {
 pool {
-<% if @failover[0]['peer'] and @failover[0]['peer address'] -%>
+<% if (@failover[0]['peer'] == 'primary' or @failover[0]['peer'] == 'secondary') and @failover[0]['peer address'] -%>
 	failover peer "dhcp-failover";
 <% end -%>
 <% hash.each do |key,value| -%>
